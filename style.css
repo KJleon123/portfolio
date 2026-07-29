@@ -600,3 +600,22 @@ a:focus-visible, button:focus-visible{
 .project-card:hover .project-thumb img{
     transform:scale(1.05);
 }
+
+
+
+.project-btn{
+    display:inline-block;
+    margin-top:15px;
+    padding:12px 22px;
+    background:#2563eb; /* Bleu */
+    color:#fff;
+    text-decoration:none;
+    border-radius:8px;
+    font-weight:600;
+    transition:0.3s ease;
+}
+
+.project-btn:hover{
+    background:#1d4ed8;
+    transform:translateY(-2px);
+}
