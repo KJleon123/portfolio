@@ -487,7 +487,7 @@ a:focus-visible, button:focus-visible{
   color:#fff;
   font-weight:700;
 }
-.stat .num::after{ content:'+'; color:var(--blue-400); }
+.stat .num::after{ content:''; color:var(--blue-400); }
 .stat .label{
   margin-top:8px;
   font-family:var(--font-mono);
