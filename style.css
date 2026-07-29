@@ -580,3 +580,23 @@ a:focus-visible, button:focus-visible{
 }
 .footer-logo img{ height:80px; }
 .footer p{ font-size:13px; color:var(--ink-soft); }
+
+
+
+.project-thumb{
+    height:220px;
+    overflow:hidden;
+    border-radius:15px;
+}
+
+.project-thumb img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    transition:.4s;
+}
+
+.project-card:hover .project-thumb img{
+    transform:scale(1.05);
+}
