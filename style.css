@@ -328,7 +328,7 @@ a:focus-visible, button:focus-visible{
 .reveal.in{ opacity:1; transform:translateY(0); }
 
 /* =========================================================
-   SKILLS / SERVICES cards
+   SKILLS / SERVICES cards (anciennes — conservées pour compatibilité)
    ========================================================= */
 .card-grid{
   display:grid;
@@ -359,6 +359,140 @@ a:focus-visible, button:focus-visible{
 .skill-icon svg{ width:22px; height:22px; }
 .skill-card h3{ font-size:19px; }
 .skill-card p{ margin-top:10px; color:var(--ink-soft); font-size:15px; }
+
+/* =========================================================
+   SKILLS MODERN GRID — NOUVELLES COMPÉTENCES & SERVICES
+   ========================================================= */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+@media (max-width: 1024px) {
+  .skills-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 700px) {
+  .skills-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.skill-card-modern {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 32px 28px 28px;
+  transition: transform 0.3s var(--ease), border-color 0.3s var(--ease), box-shadow 0.3s var(--ease);
+  display: flex;
+  flex-direction: column;
+}
+
+.skill-card-modern:hover {
+  transform: translateY(-6px);
+  border-color: rgba(46, 107, 255, 0.35);
+  box-shadow: 0 20px 40px -24px rgba(10, 23, 48, 0.25);
+}
+
+.skill-card-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.skill-icon-modern {
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--navy-950);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.skill-icon-modern svg {
+  width: 20px;
+  height: 20px;
+}
+
+.skill-card-header h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--navy-950);
+  margin: 0;
+}
+
+.skill-desc {
+  color: var(--ink-soft);
+  font-size: 14.5px;
+  line-height: 1.6;
+  margin: 0 0 16px 0;
+  flex: 1;
+}
+
+.skill-tech-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.skill-tech-tags span {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.03em;
+  background: var(--bg-alt);
+  color: var(--ink-soft);
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+}
+
+.skill-progress-wrapper {
+  margin-top: auto;
+}
+
+.skill-progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-soft);
+  margin-bottom: 6px;
+}
+
+.skill-progress-label .skill-percent {
+  color: var(--blue-600);
+  font-weight: 600;
+  font-family: var(--font-mono);
+}
+
+.skill-progress-track {
+  width: 100%;
+  height: 6px;
+  background: var(--bg-alt);
+  border-radius: 999px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+
+.skill-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--blue-600), var(--blue-400));
+  border-radius: 999px;
+  transition: width 1.2s var(--ease);
+  width: 0%;
+}
+
+/* Animation au chargement pour les barres */
+.skill-card-modern.reveal.in .skill-progress-bar {
+  width: var(--progress-width, 0%);
+}
 
 /* =========================================================
    PROJECT CARDS (réalisations)
