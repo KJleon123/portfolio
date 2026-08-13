@@ -78,3 +78,47 @@ if ('IntersectionObserver' in window && statNums.length) {
 } else {
   statNums.forEach(el => { el.textContent = el.dataset.count; });
 }
+
+
+
+
+
+
+// =========================================================
+// ANIMATION DES BARRES DE PROGRESSION
+// =========================================================
+
+function animateSkillBars() {
+  const skillCards = document.querySelectorAll('.skill-card-modern.reveal');
+  
+  skillCards.forEach(card => {
+    if (card.classList.contains('in')) {
+      const bar = card.querySelector('.skill-progress-bar');
+      if (bar && !bar.dataset.animated) {
+        const width = bar.dataset.width || 0;
+        bar.style.width = width + '%';
+        bar.dataset.animated = 'true';
+      }
+    }
+  });
+}
+
+// Observer pour détecter quand les cartes deviennent visibles
+const observer = new MutationObserver(() => {
+  animateSkillBars();
+});
+
+// Écouter les changements de classe sur les éléments .reveal
+document.querySelectorAll('.reveal').forEach(el => {
+  observer.observe(el, { attributes: true, attributeFilter: ['class'] });
+});
+
+// Appel initial après le chargement
+document.addEventListener('DOMContentLoaded', () => {
+  setTimeout(animateSkillBars, 500);
+});
+
+// Écouter l'événement de scroll
+window.addEventListener('scroll', () => {
+  animateSkillBars();
+});
