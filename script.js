@@ -89,76 +89,157 @@ if ('IntersectionObserver' in window && statNums.length) {
 // =========================================================
 
 function animateSkillBars() {
+
   const skillCards = document.querySelectorAll('.skill-card-modern.reveal');
-  
+
   skillCards.forEach(card => {
+
     if (card.classList.contains('in')) {
+
       const bar = card.querySelector('.skill-progress-bar');
+
       if (bar && !bar.dataset.animated) {
+
         const width = bar.dataset.width || 0;
+
         bar.style.width = width + '%';
+
         bar.dataset.animated = 'true';
       }
     }
   });
 }
 
+
 // Observer pour détecter quand les cartes deviennent visibles
+
 const observer = new MutationObserver(() => {
+
   animateSkillBars();
+
 });
+
 
 // Écouter les changements de classe sur les éléments .reveal
+
 document.querySelectorAll('.reveal').forEach(el => {
-  observer.observe(el, { attributes: true, attributeFilter: ['class'] });
+
+  observer.observe(el, {
+    attributes: true,
+    attributeFilter: ['class']
+  });
+
 });
+
 
 // Appel initial après le chargement
+
 document.addEventListener('DOMContentLoaded', () => {
+
   setTimeout(animateSkillBars, 500);
+
 });
+
 
 // Écouter l'événement de scroll
+
 window.addEventListener('scroll', () => {
+
   animateSkillBars();
+
 });
 
 
+// =========================================================
+// MODALE DYNAMIQUE DES RÉALISATIONS
+// =========================================================
 
-function openCompanyProfile() {
-  const modal = document.getElementById("companyProfileModal");
+function openProject(button) {
 
+  const modal = document.getElementById("projectModal");
+
+  // Récupérer automatiquement les informations du projet
+  const title = button.dataset.title;
+  const category = button.dataset.category;
+  const description = button.dataset.description;
+  const images = button.dataset.images.split(",");
+
+
+  // Afficher les informations
+  document.getElementById("modalTitle").textContent = title;
+
+  document.getElementById("modalCategory").textContent = category;
+
+  document.getElementById("modalDescription").textContent = description;
+
+
+  // Récupérer la zone des images
+  const imageContainer = document.getElementById("modalImages");
+
+  // Supprimer les anciennes images
+  imageContainer.innerHTML = "";
+
+
+  // Ajouter automatiquement les images du projet
+  images.forEach(function(image) {
+
+    const img = document.createElement("img");
+
+    img.src = image.trim();
+
+    img.alt = title;
+
+    imageContainer.appendChild(img);
+
+  });
+
+
+  // Afficher la modale
   modal.classList.add("active");
 
+  // Bloquer le scroll derrière la modale
   document.body.style.overflow = "hidden";
 }
 
-function closeCompanyProfile() {
-  const modal = document.getElementById("companyProfileModal");
+
+// =========================================================
+// FERMER LA MODALE
+// =========================================================
+
+function closeProject() {
+
+  const modal = document.getElementById("projectModal");
 
   modal.classList.remove("active");
 
   document.body.style.overflow = "";
+
 }
 
 
 // Fermer en cliquant sur l'arrière-plan
-document.addEventListener("click", function (event) {
 
-  const modal = document.getElementById("companyProfileModal");
+document.addEventListener("click", function(event) {
+
+  const modal = document.getElementById("projectModal");
 
   if (event.target === modal) {
-    closeCompanyProfile();
+
+    closeProject();
+
   }
 
 });
 
 
 // Fermer avec la touche Échap
-document.addEventListener("keydown", function (event) {
+
+document.addEventListener("keydown", function(event) {
 
   if (event.key === "Escape") {
-    closeCompanyProfile();
+
+    closeProject();
+
   }
 
 });

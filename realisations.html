@@ -137,11 +137,18 @@
                   Company Profile — Ets PRO PERFORMANCE GROUP (PPG)
                 </div>
 
-               <a href="#" class="project-btn"onclick="openCompanyProfile(); return false;">📖 Voir le projet</a>
+                <a href="#"
+                  class="project-btn"
+                  onclick="openProject(this); return false;"
+                  data-title="Un aperçu de quelques pages du projet 😉."
+                  data-category="DESIGN GRAPHIQUE"
+                  data-images="images/projet_digitaux/ppg/PPG_1.png,images/projet_digitaux/ppg/PPG_2.png,images/projet_digitaux/ppg/PPG_3.png,images/projet_digitaux/ppg/PPG_5.png,images/projet_digitaux/ppg/PPG_4.png">
+                  📖 Voir le projet
+                </a>
               </div>
 
-              <span class="ledger-badge">✔ Livré</span>
-            </div>
+  <span class="ledger-badge">✔ Livré</span>
+</div>
       </div>
     </div>
   </section>
@@ -183,53 +190,36 @@
 
 <script src="script.js"></script>
 
-<!-- MODALE COMPANY PROFILE -->
-    <div id="companyProfileModal" class="project-modal">
+    <!-- MODALE DYNAMIQUE DES PROJETS -->
+
+    <div id="projectModal" class="project-modal">
 
       <div class="project-modal-content">
 
-        <button class="project-modal-close" onclick="closeCompanyProfile()">
+        <button
+          class="project-modal-close"
+          onclick="closeProject()"
+          aria-label="Fermer">
           &times;
         </button>
 
         <div class="project-modal-header">
-          <span>DESIGN GRAPHIQUE</span>
 
-          <h2>Un apercu de quelque pages du projet .🙂</h2>
+          <span id="modalCategory"></span>
+
+          <h2 id="modalTitle"></h2>
+
+          <p id="modalDescription"></p>
+
         </div>
 
-        <div class="company-profile-gallery">
-
-          <img
-            src="images/projet_digitaux/ppg/PPG_1.png"
-            alt="Couverture du Company Profile"
-          >
-
-          <img
-            src="images/projet_digitaux/ppg/PPG_2.png"
-            alt="Page 2 du Company Profile"
-          >
-
-          <img
-            src="images/projet_digitaux/ppg/PPG_3.png"
-            alt="Page 3 du Company Profile"
-          >
-
-          <img
-            src="images/projet_digitaux/ppg/PPG_5.png"
-            alt="Page 5 du Company Profile"
-          >
-
-             <img
-            src="images/projet_digitaux/ppg/PPG_4.png"
-            alt="Page 4 du Company Profile"
-          >
-
-
+        <div
+          id="modalImages"
+          class="company-profile-gallery">
         </div>
 
         <div class="project-modal-footer">
-          <span>Apercu du projet...</span>
+          <span>Aperçu du projet...</span>
         </div>
 
       </div>
