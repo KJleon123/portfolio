@@ -122,3 +122,43 @@ document.addEventListener('DOMContentLoaded', () => {
 window.addEventListener('scroll', () => {
   animateSkillBars();
 });
+
+
+
+function openCompanyProfile() {
+  const modal = document.getElementById("companyProfileModal");
+
+  modal.classList.add("active");
+
+  document.body.style.overflow = "hidden";
+}
+
+function closeCompanyProfile() {
+  const modal = document.getElementById("companyProfileModal");
+
+  modal.classList.remove("active");
+
+  document.body.style.overflow = "";
+}
+
+
+// Fermer en cliquant sur l'arrière-plan
+document.addEventListener("click", function (event) {
+
+  const modal = document.getElementById("companyProfileModal");
+
+  if (event.target === modal) {
+    closeCompanyProfile();
+  }
+
+});
+
+
+// Fermer avec la touche Échap
+document.addEventListener("keydown", function (event) {
+
+  if (event.key === "Escape") {
+    closeCompanyProfile();
+  }
+
+});

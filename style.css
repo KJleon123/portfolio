@@ -753,3 +753,177 @@ a:focus-visible, button:focus-visible{
     background:#1d4ed8;
     transform:translateY(-2px);
 }
+
+
+/* ================================
+   MODALE PROJET
+================================ */
+
+.project-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  background: rgba(0, 0, 0, 0.82);
+
+  padding: 30px;
+
+  align-items: center;
+  justify-content: center;
+}
+
+.project-modal.active {
+  display: flex;
+}
+
+.project-modal-content {
+  position: relative;
+
+  width: 100%;
+  max-width: 1050px;
+  max-height: 90vh;
+
+  overflow-y: auto;
+
+  background: #ffffff;
+  border-radius: 18px;
+
+  padding: 40px;
+}
+
+/* Bouton fermer */
+
+.project-modal-close {
+  position: absolute;
+
+  top: 15px;
+  right: 20px;
+
+  width: 40px;
+  height: 40px;
+
+  border: none;
+  border-radius: 50%;
+
+  background: #f1f1f1;
+
+  font-size: 28px;
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.project-modal-close:hover {
+  background: #111;
+  color: #fff;
+}
+
+/* En-tête */
+
+.project-modal-header {
+  padding-right: 45px;
+  margin-bottom: 30px;
+}
+
+.project-modal-header span {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+
+  opacity: 0.55;
+}
+
+.project-modal-header h2 {
+  margin: 8px 0 10px;
+
+  font-size: 28px;
+}
+
+.project-modal-header p {
+  margin: 0;
+
+  color: #666;
+  line-height: 1.6;
+}
+
+/* Galerie */
+
+.company-profile-gallery {
+  display: grid;
+
+  grid-template-columns: 2fr 1fr 1fr;
+
+  gap: 15px;
+}
+
+.company-profile-gallery img {
+  width: 100%;
+
+  display: block;
+
+  border-radius: 10px;
+
+  cursor: pointer;
+
+  transition: transform 0.25s ease;
+}
+
+.company-profile-gallery img:hover {
+  transform: translateY(-3px);
+}
+
+/* Première image plus grande */
+
+.company-profile-gallery img:first-child {
+  grid-row: span 1;
+}
+
+/* Footer */
+
+.project-modal-footer {
+  display: flex;
+
+  justify-content: space-between;
+  align-items: center;
+
+  margin-top: 25px;
+  padding-top: 18px;
+
+  border-top: 1px solid #eee;
+
+  font-size: 13px;
+  color: #666;
+}
+
+/* Mobile */
+
+@media (max-width: 768px) {
+
+  .project-modal {
+    padding: 15px;
+  }
+
+  .project-modal-content {
+    padding: 25px 20px;
+    border-radius: 14px;
+  }
+
+  .project-modal-header h2 {
+    font-size: 22px;
+  }
+
+  .company-profile-gallery {
+    grid-template-columns: 1fr;
+  }
+
+  .project-modal-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+}
