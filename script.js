@@ -46,6 +46,59 @@ if ('IntersectionObserver' in window && revealEls.length) {
 }
 
 // =========================================================
+// Barres de progression des compétences
+// =========================================================
+
+function initSkillProgressBars() {
+
+  document.querySelectorAll('.skill-card-modern').forEach(card => {
+
+    const percentElement = card.querySelector('.skill-percent');
+    const progressBar = card.querySelector('.skill-progress-bar');
+
+    if (!percentElement || !progressBar) return;
+
+    // Récupération du pourcentage
+    const value = parseInt(
+      percentElement.textContent.replace('%', '').trim(),
+      10
+    );
+
+    if (isNaN(value)) return;
+
+    // Préparation
+    progressBar.style.width = '0%';
+
+    // Déclenchement après affichage
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        progressBar.style.width = `${value}%`;
+      });
+    });
+
+  });
+
+}
+
+initSkillProgressBars();
+
+// =========================================================
+// Skill progress bars
+// =========================================================
+document.querySelectorAll('.skill-card-modern').forEach(card => {
+  const percent = card.querySelector('.skill-percent');
+  const bar = card.querySelector('.skill-progress-bar');
+
+  if (!percent || !bar) return;
+
+  const value = parseInt(percent.textContent.replace('%', ''), 10);
+
+  if (!isNaN(value)) {
+    card.style.setProperty('--progress-width', `${value}%`);
+  }
+});
+
+// =========================================================
 // Animated stat counters
 // =========================================================
 const statNums = document.querySelectorAll('.stat .num[data-count]');
@@ -80,57 +133,111 @@ if ('IntersectionObserver' in window && statNums.length) {
 }
 
 // =========================================================
-// Project modal (fiche projet détaillée)
-//
-// Convention attendue dans le HTML :
-//   - Bouton/carte qui ouvre la modale :  data-modal-open="ID"
-//   - La modale correspondante :          <div class="project-modal" id="ID">
-//   - Bouton de fermeture dans la modale : class="project-modal-close"
-// Exemple :
-//   <button class="project-btn" data-modal-open="projet-1">Voir le projet</button>
-//   <div class="project-modal" id="projet-1"> ... <button class="project-modal-close">&times;</button> ... </div>
+// MODALE DYNAMIQUE DES PROJETS
 // =========================================================
-let lastFocusedTrigger = null;
 
-function openProjectModal(modal, trigger) {
+function openProject(button) {
+
+  const modal = document.getElementById('projectModal');
+
   if (!modal) return;
-  lastFocusedTrigger = trigger || null;
-  modal.classList.add('active');
-  document.body.style.overflow = 'hidden';
-  const closeBtn = modal.querySelector('.project-modal-close');
-  if (closeBtn) closeBtn.focus();
-}
 
-function closeProjectModal(modal) {
-  if (!modal) return;
-  modal.classList.remove('active');
-  document.body.style.overflow = '';
-  if (lastFocusedTrigger) lastFocusedTrigger.focus();
-}
+  const title = button.dataset.title || '';
+  const category = button.dataset.category || '';
+  const images = button.dataset.images || '';
 
-document.querySelectorAll('[data-modal-open]').forEach(trigger => {
-  trigger.addEventListener('click', (e) => {
-    e.preventDefault();
-    const modal = document.getElementById(trigger.dataset.modalOpen);
-    openProjectModal(modal, trigger);
-  });
-});
+  // Remplir les informations
+  const modalTitle = document.getElementById('modalTitle');
+  const modalCategory = document.getElementById('modalCategory');
+  const modalDescription = document.getElementById('modalDescription');
+  const modalImages = document.getElementById('modalImages');
 
-document.querySelectorAll('.project-modal').forEach(modal => {
-  // Bouton de fermeture
-  modal.querySelectorAll('.project-modal-close').forEach(btn => {
-    btn.addEventListener('click', () => closeProjectModal(modal));
-  });
-  // Clic en dehors du contenu = fermeture
-  modal.addEventListener('click', (e) => {
-    if (e.target === modal) closeProjectModal(modal);
-  });
-});
-
-// Touche Échap = fermeture de la modale active
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') {
-    const openModal = document.querySelector('.project-modal.active');
-    if (openModal) closeProjectModal(openModal);
+  if (modalTitle) {
+    modalTitle.textContent = title;
   }
+
+  if (modalCategory) {
+    modalCategory.textContent = category;
+  }
+
+  if (modalDescription) {
+    modalDescription.textContent = '';
+  }
+
+  // Nettoyer les anciennes images
+  if (modalImages) {
+
+    modalImages.innerHTML = '';
+
+    images
+      .split(',')
+      .map(image => image.trim())
+      .filter(Boolean)
+      .forEach(image => {
+
+        const img = document.createElement('img');
+
+        img.src = image;
+        img.alt = title;
+        img.loading = 'lazy';
+
+        modalImages.appendChild(img);
+
+      });
+  }
+
+  // Ouvrir la modal
+  modal.classList.add('active');
+
+  // Bloquer le scroll de la page
+  document.body.style.overflow = 'hidden';
+}
+
+
+// =========================================================
+// FERMER LA MODALE
+// =========================================================
+
+function closeProject() {
+
+  const modal = document.getElementById('projectModal');
+
+  if (!modal) return;
+
+  modal.classList.remove('active');
+
+  document.body.style.overflow = '';
+
+}
+
+
+// =========================================================
+// FERMETURE EN CLIQUANT EN DEHORS
+// =========================================================
+
+const projectModal = document.getElementById('projectModal');
+
+if (projectModal) {
+
+  projectModal.addEventListener('click', function(e) {
+
+    if (e.target === projectModal) {
+      closeProject();
+    }
+
+  });
+
+}
+
+
+// =========================================================
+// FERMETURE AVEC ÉCHAP
+// =========================================================
+
+document.addEventListener('keydown', function(e) {
+
+  if (e.key === 'Escape') {
+    closeProject();
+  }
+
 });
