@@ -8,6 +8,7 @@
   --navy-950:#0A1730;
   --navy-800:#0F2247;
   --blue-600:#2E6BFF;
+  --blue-700:#1D4ED8;
   --blue-400:#5B9CFF;
   --ink:#14213D;
   --ink-soft:#4A5678;
@@ -93,9 +94,12 @@ a:focus-visible, button:focus-visible{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  height:76px;
+  min-height:96px;
+  padding-block:10px;
 }
-.nav-logo{ display:flex; align-items:center; height:87px; }
+/* Logo agrandi : la nav passe en hauteur variable (min-height) au lieu
+   d'une hauteur fixe, pour que le logo ne soit plus rogné. */
+.nav-logo{ display:flex; align-items:center; height:64px; }
 .nav-logo img{ height:100%; width:auto; }
 
 .nav-links{
@@ -158,7 +162,7 @@ a:focus-visible, button:focus-visible{
   .nav-toggle{ display:flex; }
   .nav-links{
     position:absolute;
-    top:76px; left:0; right:0;
+    top:100%; left:0; right:0;
     background:var(--bg);
     border-bottom:1px solid var(--line);
     flex-direction:column;
@@ -188,7 +192,7 @@ a:focus-visible, button:focus-visible{
   inset:11%;
   border-radius:50%;
   overflow:hidden;
-  background:linear-gradient(160deg,var(--navy-900,#0F2247),var(--navy-950));
+  background:linear-gradient(160deg,var(--navy-800),var(--navy-950));
   border:1px solid var(--line);
   display:flex;
   align-items:center;
@@ -328,7 +332,8 @@ a:focus-visible, button:focus-visible{
 .reveal.in{ opacity:1; transform:translateY(0); }
 
 /* =========================================================
-   SKILLS / SERVICES cards (anciennes — conservées pour compatibilité)
+   SKILLS / SERVICES cards (version historique — conservée
+   uniquement si d'anciennes pages utilisent encore .card-grid)
    ========================================================= */
 .card-grid{
   display:grid;
@@ -361,138 +366,101 @@ a:focus-visible, button:focus-visible{
 .skill-card p{ margin-top:10px; color:var(--ink-soft); font-size:15px; }
 
 /* =========================================================
-   SKILLS MODERN GRID — NOUVELLES COMPÉTENCES & SERVICES
+   SKILLS MODERN GRID — compétences & services (version actuelle)
    ========================================================= */
-.skills-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 28px;
+.skills-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:28px;
 }
+@media (max-width:1024px){ .skills-grid{ grid-template-columns:repeat(2,1fr); } }
+@media (max-width:700px){ .skills-grid{ grid-template-columns:1fr; } }
 
-@media (max-width: 1024px) {
-  .skills-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+.skill-card-modern{
+  background:var(--white);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:32px 28px 28px;
+  display:flex;
+  flex-direction:column;
+  transition:transform .3s var(--ease), border-color .3s var(--ease), box-shadow .3s var(--ease);
 }
+.skill-card-modern:hover{
+  transform:translateY(-6px);
+  border-color:rgba(46,107,255,.35);
+  box-shadow:0 20px 40px -24px rgba(10,23,48,.25);
+}
+.skill-card-header{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  margin-bottom:14px;
+}
+.skill-icon-modern{
+  flex:0 0 44px;
+  width:44px; height:44px;
+  border-radius:12px;
+  background:var(--navy-950);
+  display:flex; align-items:center; justify-content:center;
+}
+.skill-icon-modern svg{ width:20px; height:20px; }
+.skill-card-header h3{ font-size:18px; font-weight:600; color:var(--navy-950); margin:0; }
 
-@media (max-width: 700px) {
-  .skills-grid {
-    grid-template-columns: 1fr;
-  }
+.skill-desc{
+  color:var(--ink-soft);
+  font-size:14.5px;
+  line-height:1.6;
+  margin:0 0 16px;
+  flex:1;
 }
-
-.skill-card-modern {
-  background: var(--white);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  padding: 32px 28px 28px;
-  transition: transform 0.3s var(--ease), border-color 0.3s var(--ease), box-shadow 0.3s var(--ease);
-  display: flex;
-  flex-direction: column;
+.skill-tech-tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-bottom:18px;
 }
-
-.skill-card-modern:hover {
-  transform: translateY(-6px);
-  border-color: rgba(46, 107, 255, 0.35);
-  box-shadow: 0 20px 40px -24px rgba(10, 23, 48, 0.25);
+.skill-tech-tags span{
+  font-family:var(--font-mono);
+  font-size:11px;
+  letter-spacing:.03em;
+  background:var(--bg-alt);
+  color:var(--ink-soft);
+  padding:4px 12px;
+  border-radius:999px;
+  border:1px solid var(--line);
 }
-
-.skill-card-header {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 14px;
+.skill-progress-wrapper{ margin-top:auto; }
+.skill-progress-label{
+  display:flex;
+  justify-content:space-between;
+  font-size:13px;
+  font-weight:500;
+  color:var(--ink-soft);
+  margin-bottom:6px;
 }
-
-.skill-icon-modern {
-  flex: 0 0 44px;
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  background: var(--navy-950);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.skill-progress-label .skill-percent{
+  color:var(--blue-600);
+  font-weight:600;
+  font-family:var(--font-mono);
 }
-
-.skill-icon-modern svg {
-  width: 20px;
-  height: 20px;
+.skill-progress-track{
+  width:100%;
+  height:6px;
+  background:var(--bg-alt);
+  border-radius:999px;
+  overflow:hidden;
+  border:1px solid var(--line);
 }
-
-.skill-card-header h3 {
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--navy-950);
-  margin: 0;
+.skill-progress-bar{
+  height:100%;
+  background:linear-gradient(90deg, var(--blue-600), var(--blue-400));
+  border-radius:999px;
+  transition:width 1.2s var(--ease);
+  width:0%;
 }
-
-.skill-desc {
-  color: var(--ink-soft);
-  font-size: 14.5px;
-  line-height: 1.6;
-  margin: 0 0 16px 0;
-  flex: 1;
-}
-
-.skill-tech-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 18px;
-}
-
-.skill-tech-tags span {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.03em;
-  background: var(--bg-alt);
-  color: var(--ink-soft);
-  padding: 4px 12px;
-  border-radius: 999px;
-  border: 1px solid var(--line);
-}
-
-.skill-progress-wrapper {
-  margin-top: auto;
-}
-
-.skill-progress-label {
-  display: flex;
-  justify-content: space-between;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--ink-soft);
-  margin-bottom: 6px;
-}
-
-.skill-progress-label .skill-percent {
-  color: var(--blue-600);
-  font-weight: 600;
-  font-family: var(--font-mono);
-}
-
-.skill-progress-track {
-  width: 100%;
-  height: 6px;
-  background: var(--bg-alt);
-  border-radius: 999px;
-  overflow: hidden;
-  border: 1px solid var(--line);
-}
-
-.skill-progress-bar {
-  height: 100%;
-  background: linear-gradient(90deg, var(--blue-600), var(--blue-400));
-  border-radius: 999px;
-  transition: width 1.2s var(--ease);
-  width: 0%;
-}
-
-/* Animation au chargement pour les barres */
-.skill-card-modern.reveal.in .skill-progress-bar {
-  width: var(--progress-width, 0%);
-}
+/* La barre se remplit dès que la carte reçoit .in (déclenché par
+   l'IntersectionObserver déjà présent dans script.js) */
+.skill-card-modern.reveal.in .skill-progress-bar{ width:var(--progress-width, 0%); }
 
 /* =========================================================
    PROJECT CARDS (réalisations)
@@ -517,14 +485,18 @@ a:focus-visible, button:focus-visible{
   box-shadow:0 24px 44px -26px rgba(10,23,48,.28);
   border-color:rgba(46,107,255,.35);
 }
+
+/* Vignette : fond dégradé "circuit" par défaut, ou vraie photo si un
+   <img> est présent dans le markup (les deux usages sont supportés). */
 .project-thumb{
-  height:150px;
+  height:220px;
+  position:relative;
+  overflow:hidden;
   background:
     radial-gradient(circle at 22px 22px, rgba(91,156,255,.35) 2px, transparent 2.5px),
     radial-gradient(circle at 60px 70px, rgba(91,156,255,.25) 2px, transparent 2.5px),
     radial-gradient(circle at 110px 34px, rgba(91,156,255,.25) 2px, transparent 2.5px),
     linear-gradient(135deg, var(--navy-950), #142B57);
-  position:relative;
 }
 .project-thumb::after{
   content:'';
@@ -533,6 +505,17 @@ a:focus-visible, button:focus-visible{
     linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px) 0 0/28px 28px,
     linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px) 0 0/28px 28px;
 }
+.project-thumb img{
+  position:relative;
+  z-index:1;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  transition:transform .4s var(--ease);
+}
+.project-card:hover .project-thumb img{ transform:scale(1.05); }
+
 .project-body{ padding:26px 26px 28px; }
 .project-tag{
   font-family:var(--font-mono);
@@ -557,6 +540,31 @@ a:focus-visible, button:focus-visible{
   width:7px; height:7px;
   border-radius:50%;
   background:#2FBF71;
+}
+
+/* Bouton "voir le projet" sur les cartes */
+.project-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  margin-top:16px;
+  padding:14px 26px;
+  min-width:200px;
+  box-sizing:border-box;
+  background:var(--blue-600);
+  color:#fff;
+  border:none;
+  border-radius:12px;
+  font-weight:600;
+  font-size:15px;
+  text-decoration:none;
+  cursor:pointer;
+  transition:background .3s var(--ease), transform .3s var(--ease);
+}
+.project-btn:hover{
+  background:var(--blue-700);
+  transform:translateY(-2px);
 }
 
 /* -------- livrés ledger -------- */
@@ -601,11 +609,12 @@ a:focus-visible, button:focus-visible{
   border-radius:20px;
   padding:56px 40px;
   display:grid;
-  grid-template-columns:repeat(3,1fr);
+  grid-template-columns:repeat(4,1fr);
   gap:32px;
   position:relative;
   overflow:hidden;
 }
+@media (max-width:980px){ .stats-band{ grid-template-columns:repeat(2,1fr); } }
 .stats-band::before{
   content:'';
   position:absolute;
@@ -621,7 +630,8 @@ a:focus-visible, button:focus-visible{
   color:#fff;
   font-weight:700;
 }
-.stat .num::after{ content:''; color:var(--blue-400); }
+.stat .num::after{ content:'+'; color:var(--blue-400); }
+.stat.percent .num::after{ content:'%'; color:var(--blue-400); }
 .stat .label{
   margin-top:8px;
   font-family:var(--font-mono);
@@ -631,6 +641,93 @@ a:focus-visible, button:focus-visible{
   letter-spacing:.05em;
 }
 @media (max-width:700px){ .stats-band{ grid-template-columns:1fr; } }
+
+/* =========================================================
+   PROJECT MODAL
+   ========================================================= */
+.project-modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  background:rgba(10,23,48,.82);
+  padding:30px;
+  align-items:center;
+  justify-content:center;
+}
+.project-modal.active{ display:flex; }
+
+.project-modal-content{
+  position:relative;
+  width:100%;
+  max-width:1050px;
+  max-height:90vh;
+  overflow-y:auto;
+  background:var(--white);
+  border-radius:20px;
+  padding:40px;
+}
+
+.project-modal-close{
+  position:absolute;
+  top:15px; right:20px;
+  width:40px; height:40px;
+  border:none;
+  border-radius:50%;
+  background:var(--bg-alt);
+  color:var(--navy-950);
+  font-size:28px;
+  line-height:1;
+  cursor:pointer;
+  transition:background .2s var(--ease), color .2s var(--ease);
+}
+.project-modal-close:hover{ background:var(--navy-950); color:#fff; }
+
+.project-modal-header{ padding-right:45px; margin-bottom:30px; }
+.project-modal-header span{
+  font-family:var(--font-mono);
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  color:var(--blue-600);
+}
+.project-modal-header h2{ margin:8px 0 10px; font-size:28px; }
+.project-modal-header p{ margin:0; color:var(--ink-soft); line-height:1.6; }
+
+.company-profile-gallery{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr;
+  gap:15px;
+}
+.company-profile-gallery img{
+  width:100%;
+  display:block;
+  border-radius:10px;
+  cursor:pointer;
+  transition:transform .25s var(--ease);
+}
+.company-profile-gallery img:hover{ transform:translateY(-3px); }
+
+.project-modal-footer{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:25px;
+  padding-top:18px;
+  border-top:1px solid var(--line);
+  font-family:var(--font-mono);
+  font-size:12.5px;
+  color:var(--ink-soft);
+}
+
+@media (max-width:768px){
+  .project-modal{ padding:15px; }
+  .project-modal-content{ padding:25px 20px; border-radius:14px; }
+  .project-modal-header h2{ font-size:22px; }
+  .company-profile-gallery{ grid-template-columns:1fr; }
+  .project-modal-footer{ flex-direction:column; align-items:flex-start; gap:8px; }
+}
 
 /* =========================================================
    CONTACT PAGE
@@ -712,233 +809,5 @@ a:focus-visible, button:focus-visible{
   flex-wrap:wrap;
   gap:16px;
 }
-.footer-logo img{ height:80px; }
+.footer-logo img{ height:56px; }
 .footer p{ font-size:13px; color:var(--ink-soft); }
-
-
-
-.project-thumb{
-    height:220px;
-    overflow:hidden;
-    border-radius:15px;
-}
-
-.project-thumb img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    display:block;
-    transition:.4s;
-}
-
-.project-card:hover .project-thumb img{
-    transform:scale(1.05);
-}
-
-
-
-.project-btn{
-    display:inline-block;
-    margin-top:15px;
-    padding:12px 22px;
-    background:#2563eb; /* Bleu */
-    color:#fff;
-    text-decoration:none;
-    border-radius:8px;
-    font-weight:600;
-    transition:0.3s ease;
-}
-
-.project-btn:hover{
-    background:#1d4ed8;
-    transform:translateY(-2px);
-}
-
-
-/* ================================
-   MODALE PROJET
-================================ */
-
-.project-modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-
-  background: rgba(0, 0, 0, 0.82);
-
-  padding: 30px;
-
-  align-items: center;
-  justify-content: center;
-}
-
-.project-modal.active {
-  display: flex;
-}
-
-.project-modal-content {
-  position: relative;
-
-  width: 100%;
-  max-width: 1050px;
-  max-height: 90vh;
-
-  overflow-y: auto;
-
-  background: #ffffff;
-  border-radius: 18px;
-
-  padding: 40px;
-}
-
-/* Bouton fermer */
-
-.project-modal-close {
-  position: absolute;
-
-  top: 15px;
-  right: 20px;
-
-  width: 40px;
-  height: 40px;
-
-  border: none;
-  border-radius: 50%;
-
-  background: #f1f1f1;
-
-  font-size: 28px;
-  line-height: 1;
-
-  cursor: pointer;
-
-  transition: 0.2s;
-}
-
-.project-modal-close:hover {
-  background: #111;
-  color: #fff;
-}
-
-/* En-tête */
-
-.project-modal-header {
-  padding-right: 45px;
-  margin-bottom: 30px;
-}
-
-.project-modal-header span {
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-
-  opacity: 0.55;
-}
-
-.project-modal-header h2 {
-  margin: 8px 0 10px;
-
-  font-size: 28px;
-}
-
-.project-modal-header p {
-  margin: 0;
-
-  color: #666;
-  line-height: 1.6;
-}
-
-/* Galerie */
-
-.company-profile-gallery {
-  display: grid;
-
-  grid-template-columns: 2fr 1fr 1fr;
-
-  gap: 15px;
-}
-
-.company-profile-gallery img {
-  width: 100%;
-
-  display: block;
-
-  border-radius: 10px;
-
-  cursor: pointer;
-
-  transition: transform 0.25s ease;
-}
-
-.company-profile-gallery img:hover {
-  transform: translateY(-3px);
-}
-
-/* Première image plus grande */
-
-.company-profile-gallery img:first-child {
-  grid-row: span 1;
-}
-
-/* Footer */
-
-.project-modal-footer {
-  display: flex;
-
-  justify-content: space-between;
-  align-items: center;
-
-  margin-top: 25px;
-  padding-top: 18px;
-
-  border-top: 1px solid #eee;
-
-  font-size: 13px;
-  color: #666;
-}
-
-/* Mobile */
-
-@media (max-width: 768px) {
-
-  .project-modal {
-    padding: 15px;
-  }
-
-  .project-modal-content {
-    padding: 25px 20px;
-    border-radius: 14px;
-  }
-
-  .project-modal-header h2 {
-    font-size: 22px;
-  }
-
-  .company-profile-gallery {
-    grid-template-columns: 1fr;
-  }
-
-  .project-modal-footer {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-  }
-
-}
-
-
-.project-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    
-    padding: 16px 28px;
-    min-width: 260px;
-    
-    border-radius: 14px;
-    border: none;
-    
-    box-sizing: border-box;
-}

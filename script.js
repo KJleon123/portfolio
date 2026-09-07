@@ -79,167 +79,58 @@ if ('IntersectionObserver' in window && statNums.length) {
   statNums.forEach(el => { el.textContent = el.dataset.count; });
 }
 
-
-
-
-
-
 // =========================================================
-// ANIMATION DES BARRES DE PROGRESSION
+// Project modal (fiche projet détaillée)
+//
+// Convention attendue dans le HTML :
+//   - Bouton/carte qui ouvre la modale :  data-modal-open="ID"
+//   - La modale correspondante :          <div class="project-modal" id="ID">
+//   - Bouton de fermeture dans la modale : class="project-modal-close"
+// Exemple :
+//   <button class="project-btn" data-modal-open="projet-1">Voir le projet</button>
+//   <div class="project-modal" id="projet-1"> ... <button class="project-modal-close">&times;</button> ... </div>
 // =========================================================
+let lastFocusedTrigger = null;
 
-function animateSkillBars() {
-
-  const skillCards = document.querySelectorAll('.skill-card-modern.reveal');
-
-  skillCards.forEach(card => {
-
-    if (card.classList.contains('in')) {
-
-      const bar = card.querySelector('.skill-progress-bar');
-
-      if (bar && !bar.dataset.animated) {
-
-        const width = bar.dataset.width || 0;
-
-        bar.style.width = width + '%';
-
-        bar.dataset.animated = 'true';
-      }
-    }
-  });
+function openProjectModal(modal, trigger) {
+  if (!modal) return;
+  lastFocusedTrigger = trigger || null;
+  modal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+  const closeBtn = modal.querySelector('.project-modal-close');
+  if (closeBtn) closeBtn.focus();
 }
 
-
-// Observer pour détecter quand les cartes deviennent visibles
-
-const observer = new MutationObserver(() => {
-
-  animateSkillBars();
-
-});
-
-
-// Écouter les changements de classe sur les éléments .reveal
-
-document.querySelectorAll('.reveal').forEach(el => {
-
-  observer.observe(el, {
-    attributes: true,
-    attributeFilter: ['class']
-  });
-
-});
-
-
-// Appel initial après le chargement
-
-document.addEventListener('DOMContentLoaded', () => {
-
-  setTimeout(animateSkillBars, 500);
-
-});
-
-
-// Écouter l'événement de scroll
-
-window.addEventListener('scroll', () => {
-
-  animateSkillBars();
-
-});
-
-
-// =========================================================
-// MODALE DYNAMIQUE DES RÉALISATIONS
-// =========================================================
-
-function openProject(button) {
-
-  const modal = document.getElementById("projectModal");
-
-  // Récupérer automatiquement les informations du projet
-  const title = button.dataset.title;
-  const category = button.dataset.category;
-  const description = button.dataset.description;
-  const images = button.dataset.images.split(",");
-
-
-  // Afficher les informations
-  document.getElementById("modalTitle").textContent = title;
-
-  document.getElementById("modalCategory").textContent = category;
-
-  document.getElementById("modalDescription").textContent = description;
-
-
-  // Récupérer la zone des images
-  const imageContainer = document.getElementById("modalImages");
-
-  // Supprimer les anciennes images
-  imageContainer.innerHTML = "";
-
-
-  // Ajouter automatiquement les images du projet
-  images.forEach(function(image) {
-
-    const img = document.createElement("img");
-
-    img.src = image.trim();
-
-    img.alt = title;
-
-    imageContainer.appendChild(img);
-
-  });
-
-
-  // Afficher la modale
-  modal.classList.add("active");
-
-  // Bloquer le scroll derrière la modale
-  document.body.style.overflow = "hidden";
+function closeProjectModal(modal) {
+  if (!modal) return;
+  modal.classList.remove('active');
+  document.body.style.overflow = '';
+  if (lastFocusedTrigger) lastFocusedTrigger.focus();
 }
 
+document.querySelectorAll('[data-modal-open]').forEach(trigger => {
+  trigger.addEventListener('click', (e) => {
+    e.preventDefault();
+    const modal = document.getElementById(trigger.dataset.modalOpen);
+    openProjectModal(modal, trigger);
+  });
+});
 
-// =========================================================
-// FERMER LA MODALE
-// =========================================================
+document.querySelectorAll('.project-modal').forEach(modal => {
+  // Bouton de fermeture
+  modal.querySelectorAll('.project-modal-close').forEach(btn => {
+    btn.addEventListener('click', () => closeProjectModal(modal));
+  });
+  // Clic en dehors du contenu = fermeture
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeProjectModal(modal);
+  });
+});
 
-function closeProject() {
-
-  const modal = document.getElementById("projectModal");
-
-  modal.classList.remove("active");
-
-  document.body.style.overflow = "";
-
-}
-
-
-// Fermer en cliquant sur l'arrière-plan
-
-document.addEventListener("click", function(event) {
-
-  const modal = document.getElementById("projectModal");
-
-  if (event.target === modal) {
-
-    closeProject();
-
+// Touche Échap = fermeture de la modale active
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    const openModal = document.querySelector('.project-modal.active');
+    if (openModal) closeProjectModal(openModal);
   }
-
-});
-
-
-// Fermer avec la touche Échap
-
-document.addEventListener("keydown", function(event) {
-
-  if (event.key === "Escape") {
-
-    closeProject();
-
-  }
-
 });
