@@ -1,6 +1,6 @@
 /* =========================================================
-   KADIO LEON — DEV Portfolio
-   Design tokens
+   LELEON —  Portfolio
+   Design 
    ========================================================= */
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
@@ -632,6 +632,7 @@ a:focus-visible, button:focus-visible{
 }
 .stat .num::after{ content:'+'; color:var(--blue-400); }
 .stat.percent .num::after{ content:'%'; color:var(--blue-400); }
+.stat.plain .num::after{ content:''; }
 .stat .label{
   margin-top:8px;
   font-family:var(--font-mono);
